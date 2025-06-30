@@ -10,11 +10,9 @@ local types = require('openmw.types')
 local SCRIPTNAME = "Global"
 
 local FOLLOWER_PLACEMENT_DISTANCE = 100
-local UPDATE_INTERVAL_SECONDS = 1.0
 local DEAD_FOLLOWER_CLEANUP_INTERVAL = 5.0
 
 local playerPosition = nil
-local frameCounter = 0
 local cleanupCounter = 0
 
 local function onEvent(eventData)
@@ -204,13 +202,12 @@ return {
             debug.debugPrint(debug.DEBUG(), SCRIPTNAME, "onInit", "[global.lua] initialized")
         end,
         onUpdate = function(dt)
-            frameCounter = frameCounter + dt
             cleanupCounter = cleanupCounter + dt
             
             -- Periodically clean up dead followers
             if cleanupCounter >= DEAD_FOLLOWER_CLEANUP_INTERVAL then
                 cleanupDeadFollowers()
-                cleanupCounter = 0
+                cleanupCounter = cleanupCounter - DEAD_FOLLOWER_CLEANUP_INTERVAL
             end
         end
     },

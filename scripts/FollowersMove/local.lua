@@ -8,8 +8,8 @@ local types = require('openmw.types')
 
 local SCRIPTNAME = "Local"
 
-local FOLLOW_CHECK_INTERVAL_SECONDS = 2.0
-local NAVMESH_RETRY_DELAY_SECONDS = 0.05
+local FOLLOW_CHECK_INTERVAL = 2.0
+local NAVMESH_RETRY_DELAY = 0.05
 local MAX_NAVMESH_RETRY_ATTEMPTS = 3
 local INITIAL_NAVMESH_SEARCH_RADIUS = 100
 
@@ -34,7 +34,7 @@ local function processPendingSafePositions()
         if processed then break end
         
         -- data.position is guaranteed to exist since we created it in onFindSafePosition
-        if (currentTime - (data.lastAttempt or 0) >= NAVMESH_RETRY_DELAY_SECONDS) or not data.lastAttempt then
+        if (currentTime - (data.lastAttempt or 0) >= NAVMESH_RETRY_DELAY) or not data.lastAttempt then
             processed = true
             local radius = INITIAL_NAVMESH_SEARCH_RADIUS * (2 ^ (data.retryCount - 1))
             debug.debugPrint(debug.DEBUG(), SCRIPTNAME, "processPendingSafePositions",
@@ -96,7 +96,7 @@ local function onUpdate(dt)
     end
 
     frameCounter = frameCounter + dt
-    if frameCounter >= FOLLOW_CHECK_INTERVAL_SECONDS then
+    if frameCounter >= FOLLOW_CHECK_INTERVAL then
         if debug.DEBUG_SPAM() then
             debug.debugPrint(debug.DEBUG_SPAM(), SCRIPTNAME, "onUpdate", "Processing actor.id: " .. actor.id .. " recordId: " .. actor.recordId)
         end
@@ -127,7 +127,7 @@ local function onUpdate(dt)
                 end
             end
             wasFollowing = isFollowing
-        frameCounter = 0
+        frameCounter = frameCounter - FOLLOW_CHECK_INTERVAL
     end
     
     processPendingSafePositions()

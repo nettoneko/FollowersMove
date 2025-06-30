@@ -12,29 +12,11 @@ local ui = require('openmw.ui')
 
 local SCRIPTNAME = "Player"
 
-local TELEPORT_KEY_COOLDOWN_SECONDS = 0.5
+local TELEPORT_KEY_COOLDOWN = 0.5
 local FOLLOWER_TELEPORT_KEY = input.KEY.B
 -- TODO: switch to input.registerAction so the key can be changed in-game.
 
 local lastKeyPressTime = 0
-
--- Helper function to teleport a follower
-local function teleportFollower(actor)
-    debug.debugPrint(debug.DEBUG(), SCRIPTNAME, "teleportFollower", "Sending teleport event for follower " .. actor.recordId)
-    
-    core.sendGlobalEvent('FollowersMove_Teleport', {
-        follower = {
-            id = actor.id,
-            recordId = actor.recordId,
-            position = actor.position,
-            cell = {
-                name = actor.cell.name,
-                region = actor.cell.region
-            }
-        },
-        playerPosition = self.position
-    })
-end
 
 -- Usage: enter player context via `luap` in console, call: I.FollowersMoveDebugInterface.setDebug("DEBUG_VERBOSE", true)
 local function setDebug(flag, value)
@@ -67,7 +49,7 @@ end
 local function onKeyPress(key)
     debug.debugPrint(debug.DEBUG_VERBOSE(), SCRIPTNAME, "onKeyPress", "input: " .. (key.symbol ~= "" and "symbol=" .. key.symbol or "code=" .. key.code))
     local currentTime = core.getSimulationTime()
-    if currentTime - lastKeyPressTime < TELEPORT_KEY_COOLDOWN_SECONDS then
+    if currentTime - lastKeyPressTime < TELEPORT_KEY_COOLDOWN then
         return
     end
 
