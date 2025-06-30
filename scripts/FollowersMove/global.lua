@@ -6,6 +6,7 @@ local debug = require('scripts/FollowersMove/debug')
 local globalData = storage.globalSection('FollowersMoveData')
 local globalDebugData = storage.globalSection('FollowersMoveDebug')
 local types = require('openmw.types')
+local common = require('scripts/FollowersMove/common')
 
 local SCRIPTNAME = "Global"
 

@@ -5,6 +5,7 @@ local nearby = require('openmw.nearby')
 local util = require('openmw.util')
 local debug = require('scripts/FollowersMove/debug')
 local types = require('openmw.types')
+local common = require('scripts/FollowersMove/common')
 
 local SCRIPTNAME = "Local"
 
