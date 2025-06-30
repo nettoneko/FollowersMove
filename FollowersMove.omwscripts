@@ -1,0 +1,3 @@
+GLOBAL: scripts/FollowersMove/global.lua
+PLAYER: scripts/FollowersMove/player.lua
+NPC, CREATURE: scripts/FollowersMove/local.lua
