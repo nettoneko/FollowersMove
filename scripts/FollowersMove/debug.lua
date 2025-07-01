@@ -44,7 +44,6 @@ function debug.getDebug()
     }
 end
 
-
 function debug.debugPrint(level, source, functionName, msg, messageBox, ...)
     local args = {...}
     
@@ -84,4 +83,4 @@ debug.DEBUG_SPAM = function()
     return value == nil and DEFAULT_DEBUG_SPAM or value
 end
 
-return debug
+return debug 
